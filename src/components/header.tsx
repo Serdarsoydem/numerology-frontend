@@ -11,12 +11,10 @@ export const Header = async () => {
                     href={"/"}
                     className="flex items-center justify-center gap-2 text-lg font-bold tracking-wide transition-all duration-300 ease-in-out"
                 >
-                    <Image src="/images/next.svg" width={200} height={24.22} alt="logo" />
+                    <Image src="/images/IHOPE-bg.png" width={80} height={50} alt="logo" />
                 </Link>
                 <Navigation/>
             </div>
         </header>
     )
-
-
 }

@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
       <div className="flex flex-col overflow-visible">
           <Header/>
-          <main className="flex-1 pt-20">{children}</main>
+          <main className="flex-1 pt-20 px-6">{children}</main>
       </div>
   )
 }

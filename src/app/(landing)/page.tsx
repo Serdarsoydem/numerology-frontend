@@ -6,7 +6,7 @@ import {DialogCloseButton} from "@/components/layouts/story-layout";
 
 export default function Home() {
   return (
-      <main className="flex min-h-screen flex-col items-center justify-center md:p-24 mt-2 ">
+      <main className="flex min-h-screen flex-col items-center justify-center mt-20 ">
           <Stories/>
           <DialogCloseButton/>
           <FeaturedPosts/>

@@ -21,8 +21,8 @@ const config = {
       colors: {
         dark: "#1b1b1b",
         light: "#fff",
-        accent: "#7B00D3",
-        accentDark: "#ffdb4d",
+        accent: "#5271FF",
+        accentDark: "#a9a9e8",
         gray: "#747474",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -72,10 +72,15 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "scale-up": {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.2)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "scale-up": "scale-up 0.2s ease-in-out forwards",
       },
     },
   },

@@ -17,33 +17,11 @@ const Navigation = () => {
             <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className={"text-lg"}>Getting started</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[230px] gap-3 p-4">
-                                <ListItem title={"Hello World"}>Hello World</ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-                <NavigationMenuList>
-                    <NavigationMenuItem>
                         <Link href="/docs" legacyBehavior passHref>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Documentation
                             </NavigationMenuLink>
                         </Link>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-            <NavigationMenu>
-                <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[230px] gap-3 p-4">
-                                <ListItem title={"Hello World"}>Hello World</ListItem>
-                            </ul>
-                        </NavigationMenuContent>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
