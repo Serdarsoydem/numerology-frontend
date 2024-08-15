@@ -76,13 +76,23 @@ const config = {
           '0%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(1.2)' },
         },
+        colorChange: {
+          '0%, 100%': { borderColor: '#2b6c8f' },
+          '50%': { borderColor: '#f3e9e9' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "scale-up": "scale-up 0.2s ease-in-out forwards",
+        "colorChange": 'colorChange 1.5s infinite',
+        "marquee": 'marquee 13s linear infinite',
       },
-    },
+    }
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config

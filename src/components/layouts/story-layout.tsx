@@ -1,50 +1,25 @@
-import { Copy } from "lucide-react"
+"use client"
 
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {StoryType} from "@/types/api-types";
+import {isStoryWithImage} from "@/utils";
+import Video from "@/components/layouts/video";
+import ImageLayout from "@/components/layouts/image";
 
-export function DialogCloseButton() {
+const Story = ({story} : {story : StoryType}) => {
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">Share</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <div className="flex items-center space-x-2 space-y-2">
-                    <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                            Link
-                        </Label>
-                        <Input
-                            id="link"
-                            defaultValue="https://ui.shadcn.com/docs/installation"
-                            readOnly
-                        />
-                    </div>
-                    <Button type="submit" size="sm" className="px-3">
-                        <span className="sr-only">Copy</span>
-                        <Copy className="h-4 w-4" />
-                    </Button>
+        <div className="relative  h-[90vh] w-full max-w-[450px] overflow-scroll snap-y snap-mandatory hide-scrollbar">
+            {isStoryWithImage(story) ? (
+                <div className="flex flex-col items-center justify-center">
+                    <ImageLayout story={story}/>
                 </div>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    )
+            ) : (
+                <div className="flex flex-col items-center justify-center">
+                    <Video story={story}/>
+                </div>
+            )}
+        </div>
+    );
 }
+
+export default Story

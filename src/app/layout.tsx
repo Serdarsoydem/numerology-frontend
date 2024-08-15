@@ -9,6 +9,9 @@ import { SmoothScrollProvider } from "@/providers/smooth-scroll-provider"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+import React from "react";
+import Link from "next/link";
+import {Header} from "@/components/header";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -59,10 +62,10 @@ export async function generateMetadata() {
 }
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children
+                                   }: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en" className="overflow-x-hidden overflow-y-scroll">
       <body
@@ -80,9 +83,13 @@ export default function RootLayout({
           disableTransitionOnChange
         > */}
         <SmoothScrollProvider>
-          {children}
-          <TailwindIndicator />
-          <Toaster />
+            <Header/>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                {children}
+                <div id="modal-root"/>
+            </div>
+            <TailwindIndicator/>
+            <Toaster/>
         </SmoothScrollProvider>
         {/* </ThemeProvider> */}
       </body>

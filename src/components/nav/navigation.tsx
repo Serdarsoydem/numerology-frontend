@@ -1,31 +1,84 @@
 "use client"
 
 import {
-    NavigationMenu,
-    NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger, navigationMenuTriggerStyle
+    NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
+    NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 import React from "react";
+import {NavigationMenuType} from "@/types/api-types";
 
 
 const Navigation = () => {
+    const navigationMenu: NavigationMenuType[] = [
+        {
+            title: "Haberler",
+            href: "/haberler",
+        },
+        {
+            title: "Blog",
+            href: "/blog"
+        },
+        {
+            title: "Röportajlar",
+            href: "/roportajlar"
+        },
+        {
+            title: "İletişim",
+            href: "/contact"
+        },
+        {
+            title: "Servisler",
+            href: "/servisler"
+        },
+        {
+            title : "Giriş Yap",
+            href : "giris"
+        }
+    ]
     return (
-        <div>
-            <NavigationMenu className="hidden md:flex">
-                <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <Link href="/docs" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Documentation
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-        </div>
+        <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+                {navigationMenu.map((item) => {
+                    if (!item.children) {
+                        return (
+                            <NavigationMenuItem key={item.title} asChild>
+                                <Link href={item.href} legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={cn(
+                                            navigationMenuTriggerStyle(),
+                                            "bg-transparent"
+                                        )}
+                                    >
+                                        {item.title}
+                                    </NavigationMenuLink>
+                                </Link>
+                            </NavigationMenuItem>
+                        )
+                    } else {
+                        return (
+                            <NavigationMenuItem key={item.title}>
+                                <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[230px] gap-3 p-4">
+                                        {item.children.map((subItem) => (
+                                            <ListItem
+                                                key={subItem.title}
+                                                href={subItem.href}
+                                                title={subItem.title}
+                                            >
+                                                {subItem.description}
+                                            </ListItem>
+                                        ))}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        )
+                    }
+                })}
+            </NavigationMenuList>
+        </NavigationMenu>
     )
 }
 
