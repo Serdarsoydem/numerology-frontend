@@ -4,14 +4,16 @@ import "./globals.css"
 import { Viewport } from "next"
 import { env } from "@/env.mjs"
 
-import { fontHeading, fontInter, fontUrbanist } from "@/config/fonts"
+import {fontBody, fontHeading} from "@/config/fonts"
 import { SmoothScrollProvider } from "@/providers/smooth-scroll-provider"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import React from "react";
-import Link from "next/link";
 import {Header} from "@/components/header";
+import {AuthProvider} from "@/contexts/auth-context";
+import {MediaProvider} from "@/contexts/media-context";
+import {DeviceProvider} from "@/contexts/DeviceContext";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -70,9 +72,8 @@ export default function RootLayout({
     <html lang="en" className="overflow-x-hidden overflow-y-scroll">
       <body
         className={cn(
-          "w-full font-sans antialiased",
-          fontInter.variable,
-          fontUrbanist.variable,
+          "antialiased",
+          fontBody.variable,
           fontHeading.variable
         )}
       >
@@ -82,15 +83,22 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-        <SmoothScrollProvider>
-            <Header/>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                {children}
-                <div id="modal-root"/>
-            </div>
-            <TailwindIndicator/>
-            <Toaster/>
-        </SmoothScrollProvider>
+        <AuthProvider>
+            <MediaProvider>
+                <SmoothScrollProvider>
+                    <DeviceProvider>
+                        <Header/>
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                            {children}
+                            <div id="modal-root"/>
+                        </div>
+                        <TailwindIndicator/>
+                        <Toaster/>
+                    </DeviceProvider>
+                </SmoothScrollProvider>
+            </MediaProvider>
+        </AuthProvider>
+
         {/* </ThemeProvider> */}
       </body>
     </html>

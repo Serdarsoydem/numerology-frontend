@@ -8,6 +8,7 @@ export const env = createEnv({
      */
     server: {
         NODE_ENV: z.enum(["development", "test", "production"]),
+        NEXT_PUBLIC_STRAPI_URL : z.string().url()
     },
 
     /**
@@ -17,6 +18,7 @@ export const env = createEnv({
      */
     client: {
         NEXT_PUBLIC_APP_URL: z.string().url(),
+        NEXT_PUBLIC_STRAPI_URL : z.string().url()
     },
 
     /**
@@ -26,6 +28,7 @@ export const env = createEnv({
     runtimeEnv: {
         NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
         NODE_ENV: process.env.NODE_ENV,
+        NEXT_PUBLIC_STRAPI_URL : process.env.NEXT_PUBLIC_STRAPI_URL
     },
     /**
      * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

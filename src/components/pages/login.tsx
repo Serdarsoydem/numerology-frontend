@@ -9,7 +9,7 @@ import {
     loginWithPasswordSchema,
     ResetPasswordFormInput,
     resetPasswordSchema
-} from "@/app/validations/login";
+} from "@/validations/login";
 import {Button} from "@/components/ui/button";
 import {Icons} from "@/utils/icons";
 import {Label} from "@/components/ui/label";
@@ -18,6 +18,18 @@ import Link from "next/link";
 import Image from "next/image";
 import {useToast} from "@/components/ui/use-toast";
 import {useRouter} from "next/navigation";
+
+
+type FormInput =
+    | LoginWithPasswordFormInput
+    | ResetPasswordFormInput
+    | ForgotPasswordFormInput;
+
+type SchemaType<T extends string> = T extends "login" | "signup"
+    ? LoginWithPasswordFormInput
+    : T extends "reset-password"
+        ? ResetPasswordFormInput
+        : ForgotPasswordFormInput;
 
 const Register =  (
     {
@@ -44,14 +56,13 @@ const Register =  (
         register,
         handleSubmit,
         formState: { errors },
-        control
-    } = useForm<LoginWithPasswordFormInput | ResetPasswordFormInput | ForgotPasswordFormInput>({
+    } = useForm<SchemaType<typeof operationInProgress>>({
         resolver: zodResolver(schema),
         defaultValues: {
             email: "",
             password: "",
         },
-    })
+    });
 
     const onLogin =  (data : LoginWithPasswordFormInput) => {
         console.log("On Login")
@@ -90,7 +101,7 @@ const Register =  (
                     router.push('/'); // Redirect to a protected page
             } catch (error) {
                 console.error('Registration error:', error);
-                alert('Registration failed!');
+                alert('Kayıt Başarısız Oldu!');
             }
         })
     };
@@ -172,7 +183,7 @@ const Register =  (
         })
     };
 
-    const onResetPassword =  (data : LoginWithPasswordFormInput) => {
+    const onResetPassword =  (data : ResetPasswordFormInput) => {
         console.log("onResetPassword")
 
         startTransition( async () => {
@@ -238,13 +249,13 @@ const Register =  (
                     <form
                         onSubmit={handleSubmit((data) => {
                             if (operationInProgress === "login") {
-                                onLogin(data);
+                                onLogin(data as LoginWithPasswordFormInput);
                             } else if (operationInProgress === "signup") {
-                                onSignUp(data);
+                                onSignUp(data as LoginWithPasswordFormInput);
                             } else if (operationInProgress === "forgot-password") {
-                                onForgotPassword(data);
-                            }else if (operationInProgress === "reset-password") {
-                                onResetPassword(data);
+                                onForgotPassword(data as ForgotPasswordFormInput);
+                            } else if (operationInProgress === "reset-password") {
+                                onResetPassword(data as ResetPasswordFormInput);
                             }
                         })}
                     >
@@ -252,22 +263,19 @@ const Register =  (
                         {operationInProgress !== "reset-password" && (
                             <div className="grid gap-1 pb-4">
                                 <Label htmlFor="email">E-mail</Label>
-                                <Input {...register("email")} id="email" type="email"/>
+                                <Input {...register("email")} id="email" type="email" />
                                 {errors.email && (
-                                    <div className="text-xs text-red-600">
-                                        {errors.email.message}
-                                    </div>
+                                    <div className="text-xs text-red-600">{errors.email.message}</div>
                                 )}
                             </div>
                         )}
+
                         {operationInProgress !== "forgot-password" && (
                             <div className="grid gap-1 pb-4">
                                 <Label htmlFor="password">Şifre</Label>
-                                <Input {...register("password")} id="password" type="password"/>
+                                <Input {...register("password")} id="password" type="password" />
                                 {errors.password && (
-                                    <div className="text-xs text-red-600">
-                                        {errors.password.message}
-                                    </div>
+                                    <div className="text-xs text-red-600">{errors.password.message}</div>
                                 )}
                             </div>
                         )}

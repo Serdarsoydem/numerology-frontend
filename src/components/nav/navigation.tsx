@@ -6,42 +6,30 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import React from "react";
-import {NavigationMenuType} from "@/types/api-types";
+import React, {useState} from "react";
+import SearchBox from "@/components/search";
+import {useAuth} from "@/contexts/auth-context";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {NavigationMenuType} from "@/types/app-types";
+import {User} from "lucide-react";
+
+type NavigationMenuProps = {
+    navigationMenu: NavigationMenuType[]
+}
+
+const Navigation = ({navigationMenu} : NavigationMenuProps) => {
 
 
-const Navigation = () => {
-    const navigationMenu: NavigationMenuType[] = [
-        {
-            title: "Haberler",
-            href: "/haberler",
-        },
-        {
-            title: "Blog",
-            href: "/blog"
-        },
-        {
-            title: "Röportajlar",
-            href: "/roportajlar"
-        },
-        {
-            title: "İletişim",
-            href: "/contact"
-        },
-        {
-            title: "Servisler",
-            href: "/servisler"
-        },
-        {
-            title : "Giriş Yap",
-            href : "giris"
-        }
-    ]
+    const {isLoggedIn, user} = useAuth();
+
     return (
         <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
+                <NavigationMenuItem asChild>
+                    <SearchBox/>
+                </NavigationMenuItem>
                 {navigationMenu.map((item) => {
-                    if (!item.children) {
+                    if (!item.children ) {
                         return (
                             <NavigationMenuItem key={item.title} asChild>
                                 <Link href={item.href} legacyBehavior passHref>
@@ -77,6 +65,28 @@ const Navigation = () => {
                         )
                     }
                 })}
+                {!isLoggedIn ?  (
+                    <NavigationMenuItem asChild>
+                        <Link href={"login"} legacyBehavior passHref>
+                            <NavigationMenuLink
+                                className={cn(
+                                    navigationMenuTriggerStyle(),
+                                    "bg-transparent"
+                                )}
+                            >
+                                Giriş
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                ) : (
+                    <Link href={"/profile"}>
+                        <Avatar className="w-10 h-10">
+                            <AvatarImage src={``} alt={`avatar`}/>
+                            <AvatarFallback><User /></AvatarFallback>
+                        </Avatar>
+                    </Link>
+                )}
+
             </NavigationMenuList>
         </NavigationMenu>
     )

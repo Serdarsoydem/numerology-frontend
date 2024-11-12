@@ -1,28 +1,46 @@
 "use client"
-import React, {useEffect, useRef, useState} from 'react';
-import {cn} from "@/lib/utils";
-import {ChevronLeft, ChevronRight} from "lucide-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export interface HorizontalScroll
+export interface HorizontalScrollProps
     extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-
-const HorizontalScroll = ({ children, className } : HorizontalScroll) => {
+const HorizontalScroll = ({ children, className }: HorizontalScrollProps) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isOverflowing, setIsOverflowing] = useState(false);
-
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
 
     const checkOverflow = () => {
         if (scrollRef.current) {
             const { scrollWidth, clientWidth } = scrollRef.current;
-            console.log(scrollWidth,clientWidth)
             setIsOverflowing(scrollWidth > clientWidth);
         }
     };
 
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setStartX(e.pageX - (scrollRef.current?.offsetLeft || 0));
+        setScrollLeft(scrollRef.current?.scrollLeft || 0);
+    };
 
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - (scrollRef.current?.offsetLeft || 0);
+        const walk = (x - startX) * 1.5; // Adjust for scroll speed
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft = scrollLeft - walk;
+        }
+    };
 
-    const scroll = (direction : "left" | "right") => {
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const scroll = (direction: "left" | "right") => {
         if (scrollRef.current) {
             const scrollAmount = direction === 'left' ? -300 : 300;
             scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
@@ -41,29 +59,36 @@ const HorizontalScroll = ({ children, className } : HorizontalScroll) => {
         checkOverflow();
     }, [children]);
 
-
     return (
-        <div className={cn("relative flex ",className)} >
+        <div
+            className={cn("relative flex select-none group/scroll", className)} // Add "group" for hover effect
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onDragStart={(e) => e.preventDefault()} // Prevent dragging for all children
+        >
             {isOverflowing && (
                 <button
-                    className="absolute left-0 top-0.5 z-10 text-accent border-none hover:animate-scale-up hidden md:block"
+                    className="absolute left-0 top-2/5 transform z-10 text-accent border-none hover:animate-scale-up opacity-0 group-hover/scroll:opacity-100 transition-opacity duration-300"
                     onClick={() => scroll('left')}
                 >
                     <ChevronLeft className="size-24" />
                 </button>
             )}
             <div
-                className={cn("relative flex items-center mx-6 md:mx-16 border-none rounded-3xl overflow-x-auto scroll-smooth hide-scrollbar",className)}
+                className={cn("relative flex items-center border-none rounded-3xl overflow-x-auto scroll-smooth hide-scrollbar", className)}
                 ref={scrollRef}
+                onDragStart={(e) => e.preventDefault()} // Prevent dragging within the scrollable container
             >
                 {children}
             </div>
             {isOverflowing && (
                 <button
-                    className="absolute right-0 top-0.5 z-10 text-accent border-none hover:animate-scale-up hidden md:block"
+                    className="absolute right-0 top-2/5 transform z-10 text-accent border-none hover:animate-scale-up opacity-0 group-hover/scroll:opacity-100 transition-opacity duration-300"
                     onClick={() => scroll('right')}
                 >
-                    <ChevronRight className="size-24" />
+                    <ChevronRight className="size-24"/>
                 </button>
             )}
         </div>

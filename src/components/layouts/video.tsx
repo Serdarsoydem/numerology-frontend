@@ -1,31 +1,39 @@
 "use client"
-import React, { useRef, useState } from "react";
+
+import React, {useEffect, useRef} from "react";
 import { Play } from "lucide-react";
 import { StoryType } from "@/types/api-types";
 import Image from "next/image";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
+import {useMedia} from "@/contexts/media-context";
 
 function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
-    const [playing, setPlaying] = useState(true);
-    const [subs, setSubs] = useState(false);
+    const {playMedia, stopMedia, isPlaying,setIsPlaying, setVideoRef} = useMedia()
 
-    const videoRef = useRef(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const handleVideoPress = () => {
-        if (playing) {
-            setPlaying(false);
-            // @ts-ignore
-            videoRef.current.pause();
+
+        console.log("handling video click")
+        if (isPlaying) {
+            stopMedia()
         } else {
-            // @ts-ignore
-            videoRef.current.play();
-            setPlaying((play) => !play);
+            console.log("playing")
+            if (videoRef.current) playMedia(videoRef.current)
         }
     };
 
-    const handleSubscribe = () => {
-        setSubs((sub) => !sub);
-    };
+    useEffect(() => {
+        // Check if the video is currently playing when the component mounts
+        const videoElement = videoRef.current;
+
+        if (videoElement) {
+            console.log("videoElement is not undefined ")
+            const isCurrentlyPlaying = !videoElement.paused && !videoElement.ended && videoElement.readyState > 2;
+            setIsPlaying(isCurrentlyPlaying);
+        }
+    }, [setIsPlaying]);
+
 
     return (
         <div className="relative w-[400px] h-[90vh] snap-start rounded-2xl bg-gray-200">
@@ -37,8 +45,14 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
                 ref={videoRef}
                 src={story.video}
                 autoPlay={true}
+                onPlay={() => {
+                    if (videoRef.current) {
+                        setVideoRef(videoRef.current)
+                        setIsPlaying(true)
+                    }
+                }}
             />
-            {!playing && (
+            {!isPlaying && (
                 <button
                     onClick={handleVideoPress}
                     className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-full w-24 h-24 m-auto"
@@ -67,7 +81,6 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
                     <Button
                         className={`ml-auto`}
                         variant={story.cta.buttonVariant}
-                        onClick={handleSubscribe}
                     >
                         <Link href={story.cta.buttonLink}>
                             {story.cta.title}

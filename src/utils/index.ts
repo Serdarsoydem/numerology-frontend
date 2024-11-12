@@ -19,3 +19,19 @@ export const extractText = (text : string, maxLength : number) => {
 
     return text.substring(0, lastSpaceIndex); // Return text up to the last space
 }
+
+export function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+
+    const months = [
+        "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+        "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım","Aralık"]
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+}
+
+
+
