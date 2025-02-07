@@ -1,5 +1,4 @@
 import {redirect} from "next/navigation";
-import {CustomResourceResponse} from "@/types/api-types";
 import {resourceNameMap} from "@/utils/constants";
 import {getEndpoint} from "@/utils/endpoints";
 import InfiniteScrollArticles from "@/components/pages/scroll-articles";

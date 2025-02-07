@@ -9,19 +9,28 @@ import {cn} from "@/lib/utils";
 import React, {useState} from "react";
 import SearchBox from "@/components/search";
 import {useAuth} from "@/contexts/auth-context";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {NavigationMenuType} from "@/types/app-types";
-import {User} from "lucide-react";
+import AvatarDropdown from "@/components/nav/avatar-dropdown";
+import {useRouter} from "next/navigation";
 
 type NavigationMenuProps = {
     navigationMenu: NavigationMenuType[]
 }
 
 const Navigation = ({navigationMenu} : NavigationMenuProps) => {
+    const router = useRouter();
 
+    const {isLoggedIn, logout, user} = useAuth();
+    const handleProfileClick = () => {
 
-    const {isLoggedIn, user} = useAuth();
+        router.push('/profile'); // Redirect to a protected page
 
+    };
+
+    const handleLogoutClick = () => {
+        // Your logout logic
+        logout();
+    };
     return (
         <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
@@ -79,12 +88,7 @@ const Navigation = ({navigationMenu} : NavigationMenuProps) => {
                         </Link>
                     </NavigationMenuItem>
                 ) : (
-                    <Link href={"/profile"}>
-                        <Avatar className="w-10 h-10">
-                            <AvatarImage src={``} alt={`avatar`}/>
-                            <AvatarFallback><User /></AvatarFallback>
-                        </Avatar>
-                    </Link>
+                    <AvatarDropdown onProfileClick={handleProfileClick} onLogoutClick={handleLogoutClick} />
                 )}
 
             </NavigationMenuList>

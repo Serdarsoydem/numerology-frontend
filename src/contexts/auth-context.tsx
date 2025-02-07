@@ -12,6 +12,11 @@ interface AuthContextType {
         email: string;
         username: string;
     } | undefined
+    fetchWithAuth: <T = any>(
+        url: string,
+        options?: Omit<RequestInit, 'headers'>,
+        forceRefresh?: boolean
+    ) => Promise<T>;
 }
 
 // Create the AuthContext with the appropriate type and initial value
@@ -22,6 +27,49 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<{ email: string; username: string } | undefined>(undefined);
     const router = useRouter();
+
+    const fetchWithAuth = async <T = any>(
+        url: string,
+        options?: RequestInit,
+        forceRefresh: boolean = false
+    ): Promise<T> => {
+        // Check if token exists and is not expired
+        const token = localStorage.getItem('token');
+
+        if (!token || isTokenExpired()) {
+            // If no token or token is expired, logout
+            logout();
+            throw new Error('Authentication token is invalid or expired');
+        }
+
+        try {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    ...options?.headers,
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                // Handle HTTP errors
+                if (response.status === 401) {
+                    // Token might be invalid, logout
+                    logout();
+                    throw new Error('Unauthorized: Please log in again');
+                }
+
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'An error occurred');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw error;
+        }
+    };
 
     // Decode JWT to get expiration time
     const getTokenExpiration = (token: string) => {
@@ -117,7 +165,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoggedIn,
         login,
         logout,
-        user
+        user,
+        fetchWithAuth
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

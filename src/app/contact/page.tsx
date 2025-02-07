@@ -11,6 +11,7 @@ export default async function Contact() {
 
     const contactPageInfo = await fetchContactInfo();
 
+    console.log(contactPageInfo);
 
     return (
         <div className="my-6">
@@ -63,12 +64,12 @@ export default async function Contact() {
                                 {contactPageInfo.data.attributes.socials.map((social, index) => (
                                     <li key={index}
                                         className="bg-[#e6e6e6cf] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                                        <Link target="_blank" href={social.Link}>
+                                        <Link target="_blank" href={social.link}>
                                             {/* Render the social platform's icon or text conditionally */}
-                                            {social.Platform === "Facebook" && <Icons.facebook/>}
-                                            {social.Platform === "Instagram" && <Icons.instagram/>}
-                                            {social.Platform === "X" && <Icons.twitter/>}
-                                            {social.Platform === "Tiktok" && <Icons.tiktok/>}
+                                            {social.platform === "Facebook" && <Icons.facebook/>}
+                                            {social.platform === "Instagram" && <Icons.instagram/>}
+                                            {social.platform === "X" && <Icons.twitter/>}
+                                            {social.platform === "Tiktok" && <Icons.tiktok/>}
                                         </Link>
                                     </li>
                                 ))}

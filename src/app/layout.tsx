@@ -14,6 +14,7 @@ import {Header} from "@/components/header";
 import {AuthProvider} from "@/contexts/auth-context";
 import {MediaProvider} from "@/contexts/media-context";
 import {DeviceProvider} from "@/contexts/DeviceContext";
+import Footer from "@/components/pages/footer";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -92,6 +93,7 @@ export default function RootLayout({
                             {children}
                             <div id="modal-root"/>
                         </div>
+                        <Footer/>
                         <TailwindIndicator/>
                         <Toaster/>
                     </DeviceProvider>

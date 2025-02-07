@@ -2,13 +2,15 @@
 
 import React, {useEffect, useRef} from "react";
 import { Play } from "lucide-react";
-import { StoryType } from "@/types/api-types";
 import Image from "next/image";
 import Link from "next/link";
-import {Button} from "@/components/ui/button";
 import {useMedia} from "@/contexts/media-context";
+import {StoryResponseTypeAPI} from "@/types/api-types";
+import {StoryCTA} from "@/components/StoryCTA";
 
-function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
+function Video({ story }: { story: StoryResponseTypeAPI}) {
+
+    console.log(story)
     const {playMedia, stopMedia, isPlaying,setIsPlaying, setVideoRef} = useMedia()
 
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -18,8 +20,8 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
         if (isPlaying) {
             stopMedia()
         } else {
-            console.log("playing")
-            if (videoRef.current) playMedia(videoRef.current)
+            console.log("playing");
+            if (videoRef.current) playMedia(videoRef.current);
         }
     };
 
@@ -38,12 +40,12 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
     return (
         <div className="relative w-[400px] h-[90vh] snap-start rounded-2xl bg-gray-200">
             <video
-                id={story.id}
+                id={story.data.id}
                 className="w-full h-full object-fill rounded-lg"
                 onClick={handleVideoPress}
                 loop
                 ref={videoRef}
-                src={story.video}
+                src={story.data.attributes.storyMedia.data.attributes.url}
                 autoPlay={true}
                 onPlay={() => {
                     if (videoRef.current) {
@@ -64,8 +66,8 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
             <div className="absolute bottom-2.5 flex flex-col w-full px-4">
                 <div className="flex overflow-hidden">
                     <div
-                        className={`whitespace-nowrap inline-block text-white text-base ${story.title.length > 80 ? 'animate-marquee' : ''}`}>
-                        {story.title}
+                        className={`whitespace-nowrap inline-block text-white text-base ${story.data.attributes.title.length > 80 ? 'animate-marquee' : ''}`}>
+                        {story.data.attributes.title}
                     </div>
                 </div>
                 <div className="flex items-center justify-between pr-2">
@@ -78,14 +80,10 @@ function Video({ story }: { story: Extract<StoryType, { video: string }> }) {
                             className="w-[160px] h-[80px]"
                         />
                     </Link>
-                    <Button
-                        className={`ml-auto`}
-                        variant={story.cta.buttonVariant}
-                    >
-                        <Link href={story.cta.buttonLink}>
-                            {story.cta.title}
-                        </Link>
-                    </Button>
+                    {story.data.attributes.cta.map((cta, index) => (
+                            <StoryCTA key={index} cta={cta}/>
+                        )
+                    )}
                 </div>
             </div>
         </div>

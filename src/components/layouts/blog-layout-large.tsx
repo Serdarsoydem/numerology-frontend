@@ -3,9 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {ResourceResponseTypeAPI} from "@/types/api-types";
+import {ResourceResponseCustomType, ResourceResponseTypeAPI} from "@/types/api-types";
 
-const BlogLayoutLarge = ({blog}: { blog: ResourceResponseTypeAPI }) => {
+const BlogLayoutLarge = ({blog}: { blog: ResourceResponseTypeAPI["data"] }) => {
     const attrs = blog.attributes
     return (
         <div className="group inline-block overflow-hidden rounded-xl">

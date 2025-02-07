@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {formatDate} from "@/utils";
-import {ResourceResponseTypeAPI} from "@/types/api-types";
+import {ResourceResponseCustomType, ResourceResponseTypeAPI} from "@/types/api-types";
 
 type BlogLayoutThreeProps = {
-    article: ResourceResponseTypeAPI
+    article: ResourceResponseTypeAPI["data"]
     resourceName : string
 }
 
@@ -36,7 +36,7 @@ const BlogLayoutList: React.FC<BlogLayoutThreeProps> = ({ article, resourceName 
                     </span>
                 </h2>
                 <span className="capitalize text-gray dark:text-light/50 font-semibold text-sm sm:text-base">
-                    {formatDate(attributes.publishedAt)}
+                    {attributes.publishedAt ? formatDate(attributes.publishedAt) : ""}
                 </span>
             </div>
             </Link>

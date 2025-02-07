@@ -1,15 +1,16 @@
 "use client"
 
-import {StoryType} from "@/types/api-types";
-import {isStoryWithImage} from "@/utils";
+
+import {isEventWithImage} from "@/utils";
 import Video from "@/components/layouts/video";
 import ImageLayout from "@/components/layouts/image";
+import { StoryResponseTypeAPI} from "@/types/api-types";
 
-const Story = ({story} : {story : StoryType}) => {
+const Story = ({story} : {story : StoryResponseTypeAPI}) => {
 
     return (
         <div className="relative  h-[90vh] w-full max-w-[450px] overflow-scroll snap-y snap-mandatory hide-scrollbar">
-            {isStoryWithImage(story) ? (
+            {isEventWithImage(story) ? (
                 <div className="flex flex-col items-center justify-center">
                     <ImageLayout story={story}/>
                 </div>

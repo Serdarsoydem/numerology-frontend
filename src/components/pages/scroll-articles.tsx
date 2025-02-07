@@ -13,7 +13,7 @@ type InfiniteScrollArticlesProps = {
 };
 
 const InfiniteScrollArticles = ({articleType}: InfiniteScrollArticlesProps) => {
-    const [articles, setArticles] = useState<ResourceResponseTypeAPI[]>([]);
+    const [articles, setArticles] = useState<ResourceResponseTypeAPI["data"][]>([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("All");

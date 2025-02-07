@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {formatDate} from "@/utils";
-import {ResourceResponseTypeAPI} from "@/types/api-types"; // Adjust the import path as needed
+import {ResourceResponseCustomType, ResourceResponseTypeAPI} from "@/types/api-types"; // Adjust the import path as needed
 
 interface BlogLayoutTwoProps {
-    article: ResourceResponseTypeAPI;
+    article: ResourceResponseTypeAPI["data"];
 }
 
 const BlogLayoutSmall: React.FC<BlogLayoutTwoProps> = ({article}) => {
@@ -48,7 +48,7 @@ const BlogLayoutSmall: React.FC<BlogLayoutTwoProps> = ({article}) => {
                 </Link>
                 <span
                     className="inline-block w-full capitalize text-gray dark:text-light/50 font-semibold text-xs sm:text-base">
-                    {formatDate(attributes.publishedAt)}
+                    {attributes.publishedAt ? formatDate(attributes.publishedAt) : ""}
                 </span>
             </div>
         </div>

@@ -5,12 +5,12 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
 import {useToast} from "@/components/ui/use-toast";
 import {useDevice} from "@/contexts/DeviceContext";
-import { AuthorData} from "@/types/api-types";
+import {AuthorResponseTypeAPI, AuthorType} from "@/types/api-types";
 import {formatDate} from "@/utils";
 
 
 interface ShareComponentProps {
-    author? :  AuthorData
+    author? : AuthorResponseTypeAPI
     date? : string
 }
 
@@ -70,11 +70,11 @@ const ShareComponent: FC<ShareComponentProps> = ({ author, date }) => {
             {(author && date) && (
                 <div className="flex items-center space-x-4">
                     <Avatar className="w-10 h-10">
-                        <AvatarImage src={`${author.attributes.Picture.data.attributes.url}`} alt={`${author.attributes.Name} avatar`}/>
-                        <AvatarFallback>{author.attributes.Name.slice(0)}</AvatarFallback>
+                        <AvatarImage src={`${author.data.attributes.image.data.attributes.url}`} alt={`${author.data.attributes.name} avatar`}/>
+                        <AvatarFallback>{author.data.attributes.name.slice(0)}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <div className="font-medium">{author.attributes.Name}</div>
+                        <div className="font-medium">{author.data.attributes.name}</div>
                         <div className="text-sm text-muted-foreground">{formatDate(date)}</div>
                     </div>
                 </div>

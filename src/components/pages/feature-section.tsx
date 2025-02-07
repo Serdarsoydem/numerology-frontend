@@ -12,7 +12,7 @@ const FeaturedPosts = ({blogs} : {blogs : ResourceResponseTypeAPIList   }) => {
     const firstBlog = blogs.data[0]
 
     return (
-        <section className="w-full mt-16 sm:mt-24 md:mt-32 px-5 sm:px-10 sxl:px-32 flex flex-col items-center justify-center overflow-y-auto">
+        <section className="w-full px-5 sm:px-10 sxl:px-32 flex flex-col items-center justify-center overflow-y-auto">
             <h2 className="w-full inline-block font-bold capitalize text-2xl md:text-4xl text-dark dark:text-light">
                 Öne Çıkanlar
             </h2>

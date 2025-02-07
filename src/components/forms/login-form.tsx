@@ -26,6 +26,7 @@ export const LoginForm = ({setOperationInProgress} : LoginFormProps) => {
 
     const onSubmit = async (data: LoginWithPasswordFormInput) => {
         try {
+            console.log("Trying to login")
             await login(data)
         } catch (error) {
             console.error('Login error:', error);
