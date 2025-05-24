@@ -8,3 +8,21 @@ export type NavigationMenuType = {
     description?: string
 }
 export type ResourceNameType = keyof typeof resourceNameMap;
+
+export interface Message {
+    id: number;
+    sender: 'user' | 'other';
+    text: string;
+    timestamp: Date;
+}
+
+export interface Chat {
+    id: number;
+    contactName: string;
+    lastMessage: string;
+    lastMessageTime: Date;
+    unreadCount: number;
+    avatar: string;
+    messages: Message[];
+}
+

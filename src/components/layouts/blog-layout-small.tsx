@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {formatDate} from "@/utils";
-import {ResourceResponseCustomType, ResourceResponseTypeAPI} from "@/types/api-types"; // Adjust the import path as needed
+import {ResourceResponseTypeAPI} from "@/types/api-types"; // Adjust the import path as needed
 
 interface BlogLayoutTwoProps {
     article: ResourceResponseTypeAPI["data"];
@@ -34,7 +34,7 @@ const BlogLayoutSmall: React.FC<BlogLayoutTwoProps> = ({article}) => {
             <div className="col-span-12 lg:col-span-8 w-full">
                 <span
                     className="inline-block w-full uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
-                    {attributes.tags[0]}
+                    {/*{attributes.tags[0]}*/}
                 </span>
                 <Link href={`/blogs/${attributes.slug}`} className="inline-block my-1">
                     <h2 className="font-semibold capitalize text-base sm:text-lg">

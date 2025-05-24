@@ -9,6 +9,7 @@ export const eventsEndpoint = strapiEndpoint + "/events";
 export const authorsEndpoint = strapiEndpoint + "/authors";
 export const servicesEndpoint = strapiEndpoint + "/services";
 export const storiesEndpoint = strapiEndpoint + "/stories";
+export const consultantEndpoint = strapiEndpoint + "/profiles";
 
 export const getEndpoint = (articleType: string) => {
 

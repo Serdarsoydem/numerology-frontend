@@ -30,6 +30,18 @@ export type ContactPageAPIResponse = StrapiResponse<ContactPage>
 
 export type PrivacyAPIResponse = StrapiResponse<PrivacyPolicy>
 
+export type ProfileAPIResponseList = StrapiResponseList<Profile<MediaType>>
+
+export type ProfileAPIResponse = StrapiResponse<Profile<MediaType>>
+
+export type Profile <T extends MediaType | CustomMediaType> = {
+    name : string;
+    summary : string;
+    experience : string;
+    skills : string;
+    image : T;
+}
+
 type StoryType<T extends MediaType | CustomMediaType> = {
     title : string;
     slug : string;
@@ -57,7 +69,7 @@ export type EventType<T extends MediaType | CustomMediaType>  = {
     content : BlocksContent
 }
 
-export type Location = OnlineLocation[] | OnSiteLocaion[]
+export type Location = OnlineLocation[] | OnSiteLocation[]
 
 type OnlineLocation = {
     "__component": "shared.online-location",
@@ -66,7 +78,7 @@ type OnlineLocation = {
     "platform": "zoom" | "youtube" | "google_meets"
 }
 
-type OnSiteLocaion = {
+type OnSiteLocation = {
     "__component": "shared.online-location",
     address : string;
     city : string;
