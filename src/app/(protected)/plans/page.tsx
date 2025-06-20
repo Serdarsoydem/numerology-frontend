@@ -1,17 +1,21 @@
-import { SubscriptionPage } from "@/components/pages/subscription-page";
-
+import SubscriptionPage from "@/components/pages/subscription-page";
 
 export default async function Page({
                                        searchParams,
                                    }: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+    searchParams: { [key: string]: string | string[] | undefined };
 }) {
-    const {callback, data} = await searchParams
+    // Eğer searchParams bir Promise ise await edebilirsin,
+    // ama Next.js'de searchParams genellikle hazır objedir.
+    // Yine de ihtiyaca göre düzenle.
 
-    console.log(callback)
+    const { callback, data } = searchParams;
+
+    console.log("Callback param:", callback);
+
     return (
         <div className="grid">
             <SubscriptionPage />
         </div>
-    )
+    );
 }

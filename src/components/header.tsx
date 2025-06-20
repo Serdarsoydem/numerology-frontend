@@ -23,14 +23,29 @@ export const Header =  () => {
             href: "/interviews"
         },
         {
+            title: "Etkinlikler",
+            href: "/events"
+        },
+        {
             title: "İletişim",
             href: "/contact"
         },
         {
             title: "Servisler",
             href: "/services"
+        },
+        {
+           title: "Yazarlar",
+           href: "/BookAuthor"
+
+        },
+
+        {
+            title: "Kitaplar",
+            href: "/kitap"
         }
-    ]
+
+        ]
 
     return (
         <header

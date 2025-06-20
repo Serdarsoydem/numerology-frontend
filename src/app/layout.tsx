@@ -16,93 +16,72 @@ import {MediaProvider} from "@/contexts/media-context";
 import {DeviceProvider} from "@/contexts/DeviceContext";
 import Footer from "@/components/pages/footer";
 
+// ✅ ToastContainer eklendi
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  minimumScale: 1,
-  maximumScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+    width: "device-width",
+    initialScale: 1,
+    minimumScale: 1,
+    maximumScale: 1,
+    themeColor: [
+        { media: "(prefers-color-scheme: light)", color: "white" },
+        { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
 }
 
 export async function generateMetadata() {
-
-
-  return {
-/*    metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-    title: {
-      // @ts-ignore
-      default: siteConfig.name,
-      template: `%s - ${siteConfig.name}`,
-    },
-    description: siteConfig.description,
-    keywords: siteConfig.keywords,
-    robots: {
-      index: true,
-      follow: true,
-    },
-
-    openGraph: {
-      type: "website",
-      locale: "en_US",
-      url: siteConfig.url,
-      title: siteConfig.name,
-      description: siteConfig.description,
-      siteName: siteConfig.name,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: siteConfig.name,
-      description: siteConfig.description,
-    },
-    icons: {
-      icon: "/favicon.ico",
-    },
-    // manifest: `${siteConfig.url}/site.webmanifest`,*/
-  }
+    return {
+        // metadata devre dışı bırakılmış durumda
+    }
 }
 
 export default function RootLayout({
-                                     children
+                                       children
                                    }: {
-  children: React.ReactNode
+    children: React.ReactNode
 }) {
-  return (
-    <html lang="en" className="overflow-x-hidden overflow-y-scroll">
-      <body
-        className={cn(
-          "antialiased",
-          fontBody.variable,
-          fontHeading.variable
-        )}
-      >
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        > */}
+    return (
+        <html lang="en" className="overflow-x-hidden overflow-y-scroll">
+        <body
+            className={cn(
+                "antialiased",
+                fontBody.variable,
+                fontHeading.variable
+            )}
+        >
         <AuthProvider>
             <MediaProvider>
                 <SmoothScrollProvider>
                     <DeviceProvider>
-                        <Header/>
+                        <Header />
                         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
                             <div className="min-h-screen w-full">{children}</div>
-                            <div id="modal-root"/>
+                            <div id="modal-root" />
                         </div>
-                        <Footer/>
-                        <TailwindIndicator/>
-                        <Toaster/>
+                        <Footer />
+                        <TailwindIndicator />
+                        <Toaster />
+
+                        {/* ✅ ToastContainer JSX'in içine yerleştirildi */}
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                     </DeviceProvider>
                 </SmoothScrollProvider>
             </MediaProvider>
         </AuthProvider>
-
-        {/* </ThemeProvider> */}
-      </body>
-    </html>
-  )
+        </body>
+        </html>
+    )
 }

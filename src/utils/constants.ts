@@ -1,7 +1,9 @@
 export const resourceNameMap = {
-    newses : "Haberler",
-    interviews : "Röportajlar",
+    newses: "Haberler",
+    interviews: "Röportajlar",
     blogs: "Bloglar",
-    services : "Servisler"
-}
-
+    services: "Servisler",
+    events: "Etkinlikler", // Yeni eklenen
+    BookAuthor:"Yazarlar",
+    Kitap:"Kitaplar"
+} as const;

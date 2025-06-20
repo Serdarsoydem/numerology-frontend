@@ -38,6 +38,8 @@ const EventPage = ({event} : {event : EventResponseCustomType}) => {
         window.location.href = `/payment?${paymentParams}`;
     };
 
+    console.log('event.schedule',event.schedule);
+
     return (
         <div className="min-h-screen ">
             {/* Hero Section */}
@@ -65,7 +67,7 @@ const EventPage = ({event} : {event : EventResponseCustomType}) => {
                         </span>
                     </div>
                     <div className="flex items-center gap-6">
-                        <span className="text-3xl font-bold">{event.price == 0 ? "Ücretsiz" : event.price.toFixed(2)}</span>
+                         {/* <span className="text-3xl font-bold">{event.price == 0 ? "Ücretsiz" : event.price.toFixed(2)}</span> */}
                         <Dialog open={isJoiningEvent} onOpenChange={setIsJoiningEvent}>
                             <DialogTrigger asChild>
                                 <Button className="bg-white text-blue-600 hover:bg-gray-100">
@@ -128,7 +130,9 @@ const EventPage = ({event} : {event : EventResponseCustomType}) => {
                     <TabsList className="grid w-full grid-cols-4 mb-8">
                         <TabsTrigger value="overview">Açıklama</TabsTrigger>
                         {event.video ? <TabsTrigger value="video">Video</TabsTrigger> : <></>}
-                        {event.schedule ? <TabsTrigger value="schedule">Etkinlik Planı</TabsTrigger> : <></>}
+                        {event.schedule && Object.keys(event.schedule).length > 0 ? (
+                            <TabsTrigger value="schedule">Etkinlik Planı</TabsTrigger>
+                        ) : null}
                     </TabsList>
 
                     <TabsContent value="overview">
